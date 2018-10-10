@@ -72,6 +72,17 @@ void strassen(int n,vector< vector<int> > A,vector< vector<int> > B,vector< vect
         }
     }
 }
+
+void matrix(int n,vector< vector<int> > A,vector< vector<int> > B,vector< vector<int> > &C){
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            C[i][j] = 0;
+            for(int k=0;k<n;k++){
+                C[i][j] += (A[i][k]*B[k][j]);
+            }
+        }
+    }
+}
 int main(){
     int n; cin>>n;
     
@@ -89,7 +100,8 @@ int main(){
         }
     }
     
-    strassen(n,A,B,C);
+    //strassen(n,A,B,C);
+    matrix(n,A,B,C);
     
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
