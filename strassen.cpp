@@ -3,7 +3,7 @@
 
 using namespace std;
 
-
+//n*n Matrix 더한 값 return
 vector< vector<int> > addMatrix(int n,vector< vector<int> > A,vector< vector<int> > B){
     vector< vector<int> > C(n,vector<int>(n,0));
     for(int i=0;i<n;i++){
@@ -14,6 +14,7 @@ vector< vector<int> > addMatrix(int n,vector< vector<int> > A,vector< vector<int
     return C;
 }
 
+//n*n Matrix 뺀 값 return
 vector< vector<int> > subMatrix(int n,vector< vector<int> > A,vector< vector<int> > B){
     vector< vector<int> > C(n,vector<int>(n,0));
     for(int i=0;i<n;i++){
@@ -24,11 +25,15 @@ vector< vector<int> > subMatrix(int n,vector< vector<int> > A,vector< vector<int
     return C;
 }
 
+//n*n strassen algorithm
 void strassen(int n,vector< vector<int> > A,vector< vector<int> > B,vector< vector<int> > &C){
+    //threshold == 1
     if(n <= 1){
         C[0][0] = A[0][0] * B[0][0];
     }
     else{
+        //Matrix A를 A11,A12,A21,A22로 나눈다.
+        //Matrix B를 B11,B12,B21,B22로 나눈다.
         int m = n/2;
         vector< vector<int> > A11(m,vector<int>(m,0)),A12(m,vector<int>(m,0)),A21(m,vector<int>(m,0)),A22(m,vector<int>(m,0));
         vector< vector<int> > B11(m,vector<int>(m,0)),B12(m,vector<int>(m,0)),B21(m,vector<int>(m,0)),B22(m,vector<int>(m,0));
@@ -48,7 +53,8 @@ void strassen(int n,vector< vector<int> > A,vector< vector<int> > B,vector< vect
                 B22[i][j] = B[i+m][j+m];
             }
         }
-
+        
+        //M1,M2,M3,M4,M5,M6,M7값을 구한다.
         strassen(m,addMatrix(m,A11,A22),addMatrix(m,B11,B22),M1);
         strassen(m,addMatrix(m,A21,A22),B11,M2);
         strassen(m,A11,subMatrix(m,B12,B22),M3);
@@ -57,11 +63,13 @@ void strassen(int n,vector< vector<int> > A,vector< vector<int> > B,vector< vect
         strassen(m,subMatrix(m,A21,A11),addMatrix(m,B11,B12),M6);
         strassen(m,subMatrix(m,A12,A22),addMatrix(m,B21,B22),M7);
 
+        //M값을 이용해 C11,C12,C21,C22값을 구한다.
         C11 = subMatrix(m,addMatrix(m,M1,M4),subMatrix(m,M5,M7));
         C12 = addMatrix(m,M3,M5);
         C21 = addMatrix(m,M2,M4);
         C22 = subMatrix(m,addMatrix(m,M1,M3),subMatrix(m,M2,M6));
         
+        //C11,C12,C21,C22로 C행렬 구한다.
         for(int i=0;i<m;i++){
             for(int j=0;j<m;j++){
                 C[i][j] = C11[i][j];
@@ -73,16 +81,7 @@ void strassen(int n,vector< vector<int> > A,vector< vector<int> > B,vector< vect
     }
 }
 
-void matrix(int n,vector< vector<int> > A,vector< vector<int> > B,vector< vector<int> > &C){
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            C[i][j] = 0;
-            for(int k=0;k<n;k++){
-                C[i][j] += (A[i][k]*B[k][j]);
-            }
-        }
-    }
-}
+
 int main(){
     int n; cin>>n;
     
@@ -100,8 +99,7 @@ int main(){
         }
     }
     
-    //strassen(n,A,B,C);
-    matrix(n,A,B,C);
+    strassen(n,A,B,C);
     
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
