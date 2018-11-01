@@ -49,9 +49,6 @@ int main(){
     }
     
 
-    cout<<"minimult : "<<minmult(n,d,P)<<endl;
-    
-    
     order(P,0,n-1);
     cout<<endl;
 }
