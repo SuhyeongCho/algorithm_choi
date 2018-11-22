@@ -44,6 +44,20 @@ int main(){
     vector< vector<int> > W(n+1,vector<int>(n+1,0));
     vector<struct edge> F;
     
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            cin>>W[i][j];
+        }
+    }
+    
     dijkstra(n,W,F);
+    
+    for(int i=0;i<F.size();i++){
+        int first = F[i].first;
+        int second = F[i].second;
+        int weight = F[i].weight;
+        
+        cout<<"f:"<<first<<", s:"<<second<<", w:"<<weight<<endl;
+    }
     return 0;
 }
