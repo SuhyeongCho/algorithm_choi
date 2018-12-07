@@ -14,7 +14,7 @@ bool promising(int i,int weight,int total){
 void sum_of_subsets(int i,int weight,int total){
     if(promising(i,weight,total)){
         if(weight == W){
-            for(int k=0;k<=i;k++){
+            for(int k=1;k<=i;k++){
                 cout<<include[k];
             }
             cout<<endl;
@@ -31,17 +31,17 @@ void sum_of_subsets(int i,int weight,int total){
 int main(){
     cin>>n>>W;
     
-    w = new int[n];
-    include = new bool[n];
+    w = new int[n+1];
+    include = new bool[n+1];
     
     int total = 0;
-    for(int i=0;i<n;i++){
+    for(int i=1;i<=n;i++){
         cin>>w[i];
         total += w[i];
         include[i] = false;
     }
     
-    sum_of_subsets(-1,0,total);
+    sum_of_subsets(0,0,total);
     
     return 0;
 }
